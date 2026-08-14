@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Thread Handoff"
+  short_description: "Export and verify project state across Codex tasks"
+  default_prompt: "Create or verify a safe project handoff using .codex/HANDOFF.md."
