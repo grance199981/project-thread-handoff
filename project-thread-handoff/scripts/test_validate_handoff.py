@@ -86,7 +86,7 @@ class ValidateHandoffTests(unittest.TestCase):
     def test_credential_pattern_fails(self):
         text = valid_document().replace(
             "Status: awaiting takeover.",
-            "Status: awaiting takeover.\napi_key=sk-abcdefghijklmnopqrstuvwxyz123456",
+            "Status: awaiting takeover.\napi_key=fake-test-secret-value",
         )
         self.assertTrue(any("credential" in x for x in validate_text(text)))
 
