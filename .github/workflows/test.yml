@@ -1,0 +1,43 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run validator tests
+        working-directory: project-thread-handoff/scripts
+        run: python -m unittest -v test_validate_handoff.py
+      - name: Check package structure
+        shell: python
+        run: |
+          from pathlib import Path
+
+          root = Path("project-thread-handoff")
+          expected = {
+              Path("SKILL.md"),
+              Path("agents/openai.yaml"),
+              Path("assets/HANDOFF.template.md"),
+              Path("scripts/validate_handoff.py"),
+              Path("scripts/test_validate_handoff.py"),
+          }
+          actual = {path.relative_to(root) for path in root.rglob("*") if path.is_file()}
+          if actual != expected:
+              raise SystemExit(f"unexpected package files: {sorted(actual ^ expected)}")
+
+          text = (root / "SKILL.md").read_text(encoding="utf-8")
+          if not text.startswith("---\nname: project-thread-handoff\n"):
+              raise SystemExit("invalid SKILL.md frontmatter")
