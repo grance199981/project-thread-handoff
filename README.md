@@ -1,5 +1,7 @@
 # Project Thread Handoff
 
+[English](README.md) | [简体中文](README_zh.md)
+
 `project-thread-handoff` is a Codex Skill for moving a long-running project from an old task into a fresh one without copying the entire conversation history.
 
 It creates a compact, evidence-backed `.codex/HANDOFF.md` snapshot, then requires the receiving task to verify that snapshot against the current project before continuing.
@@ -29,6 +31,7 @@ This Skill provides a two-phase handoff:
 ```text
 .
 ├── README.md
+├── README_zh.md
 ├── LICENSE
 ├── .github/workflows/test.yml
 └── project-thread-handoff/
